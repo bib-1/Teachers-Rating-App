@@ -1,0 +1,22 @@
+<h1>{{title}}</h1>
+
+    <a href="/teachers/add"> Add new Teachers</a>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <th>Name</th>
+    <th>Faculty</th>
+    <th>Contact</th>
+    <th>Rating</th>
+  </thead>
+  <tbody>
+  {{#each dataset}}
+    <tr>
+      <td>{{this.name}}</Td>
+      <td>{{this.faculty}}</Td>
+      <td>{{this.contact}}</Td>
+      <td>{{this.rating}}</Td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
