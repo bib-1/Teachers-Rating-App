@@ -1,2 +1,2 @@
-# assignment2b
+# Assignment 2B
  Assignment of js 
