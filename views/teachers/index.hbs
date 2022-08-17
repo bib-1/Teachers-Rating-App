@@ -8,6 +8,7 @@
     <th>Faculty</th>
     <th>Contact</th>
     <th>Rating</th>
+    <th></th>
   </thead>
   <tbody>
   {{#each dataset}}
@@ -16,6 +17,8 @@
       <td>{{this.faculty}}</Td>
       <td>{{this.contact}}</Td>
       <td>{{this.rating}}</Td>
+      <td><a href="/teachers/edit/{{this._id}}" class="btn btn primary">Edit</a></td>
+      <td><a href="/teachers/delete/{{this._id}}" class="btn btn danger" onclick="confirmAlert()">Delete</a></td>
     </tr>
   {{/each}}
   </tbody>

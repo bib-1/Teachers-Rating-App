@@ -47,8 +47,54 @@ router.post('/add', (req, res, next) =>{
     );
 });
 
+//GET handel after the delte button is pressed
+router.get('/delete/:_id', (req, res, next)=>{
+   // console.log('functioncaller');
+    Teacher.remove({
+        _id: req.params._id
+    },
+    (err) => {
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.redirect('/teachers');
+        }
+    })
+});
 
+//GET handeler for the teachers/edit_id
+router.get('/edit/:_id', (req, res, next) =>{
+    Teacher.findById(req.params._id, (err, teacher)=>{
+        if(err){console.log(err);}
+        else{res.render('teachers/edit', {title:'Edit the Teacher Info', teacher: teacher});}
+    });
+})
 
+//POST handeler for the teachers/edit
+
+router.post('/edit/:_id', (req, res, next) =>{
+    //alert('callled');
+    Teacher.findOneAndUpdate(
+    {
+        _id: req.params._id
+    },
+    {
+        name: req.body.name,
+        faculty: req.body.faculty,
+        contact: req.body.contact,
+        rating: req.body.rating
+    },
+    (err, updatedTeacher) =>{
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.redirect(`/teachers`)
+        }
+    }
+    );
+});
 
 //export the router module
 module.exports = router;

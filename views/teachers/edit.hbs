@@ -1,0 +1,31 @@
+<h1>{{title}}</h1>
+<form method="POST">
+  <fieldset>
+    <label for="name" class="col-2">
+      Name:
+    </label>
+    <input name="name" id="name" required value="{{teacher.name}}"/>
+  </fieldset>
+  <fieldset>
+    <label for="faculty" class="col-2">
+      Faculty:
+    </label>
+    <input name="faculty" id="faculty" required value="{{teacher.faculty}}"/>
+  </fieldset>
+  <fieldset>
+    <label for="contact" class="col-2">
+      Contact:
+    </label>
+    <input name="contact" id="contact" required value="{{teacher.contact}}"/>
+  </fieldset>
+  <fieldset>
+    <label for="rating" class="col-2">
+      Rating:
+    </label>
+    <input name="rating" id="rating" type="number" min="1" max="10" value="{{teacher.rating}}"/>
+  </fieldset>
+
+  <button class="offset-3 btn btn-primary">
+    Save
+  </button>
+</form>
