@@ -5,6 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose'); //importing mongoose
 var config = require('./config/globals');
+var hbs = require('hbs');
+
+//importing passport and mongoose session
+var passport = require('passport');
+var githubStrategy = require('passport-github2').Strategy;
+var session = require('express-session');
+var User = require('./models/user'); //importing the user model
 
 var indexRouter = require('./routes/index');
 var teachersRouter = require('./routes/teacher'); //creating a router object
@@ -21,6 +28,46 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Configuration of passport before the route declation so that it protects them
+app.use(session({
+  secret: 'teacherRatingApp',
+  reset: false,
+  setUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+//config local strategy > username and passport
+passport.use(User.createStrategy()); 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+// Configuring github strategy
+passport.use(new githubStrategy({
+  clientID: config.github.clientId,
+  clientSecret: config.github.clientSecret,
+  callbackURL: config.github.callbackURL
+},
+// Callback function to handle github authentication
+async (accessToken, refreshToken, profile, done) => {
+  const user = await User.findOne({ oauthId: profile.id });
+  if (user) {
+    return done(null, user);
+  }
+  else {
+    const newUser = new User({
+      username: profile.username,
+      oauthId: profile.id,
+      oauthProvider: 'Github',
+      created: Date.now()
+    });
+    const savedUser = await newUser.save();
+    return done(null, savedUser);
+  }
+}
+));
 
 app.use('/', indexRouter);
 app.use('/teachers', teachersRouter); //using teachersRouter object on '/teachers' endpoint 

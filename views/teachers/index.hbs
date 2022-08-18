@@ -17,8 +17,11 @@
       <td>{{this.faculty}}</Td>
       <td>{{this.contact}}</Td>
       <td>{{this.rating}}</Td>
+      {{!-- Navigating outside the scope of loop to get the user --}}
+      {{#if ../user}}  
       <td><a href="/teachers/edit/{{this._id}}" class="btn btn primary">Edit</a></td>
       <td><a href="/teachers/delete/{{this._id}}" class="btn btn danger" onclick="confirmAlert()">Delete</a></td>
+      {{/if}}
     </tr>
   {{/each}}
   </tbody>
