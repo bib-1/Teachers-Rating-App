@@ -14,7 +14,7 @@ function isAuth(req, res, next){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', user: req.user});
+  res.render('index', { title: 'RateTeacher', user: req.user});
 });
 
 //GET handler for login
