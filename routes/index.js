@@ -78,5 +78,16 @@ router.get('/github/callback',
   (req, res, next) => { res.redirect('/teachers') }
 );
 
+//GET Handler for google
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+//Get handeler for /google/callback 
+router.get('/google/callback',
+  // if login is not successful
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  // callback when login is successful
+  (req, res, next) => { res.redirect('/teachers') }
+);
+
 
 module.exports = router;

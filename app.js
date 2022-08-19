@@ -10,6 +10,7 @@ var hbs = require('hbs');
 //importing passport and mongoose session
 var passport = require('passport');
 var githubStrategy = require('passport-github2').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 var session = require('express-session');
 var User = require('./models/user'); //importing the user model
 
@@ -40,8 +41,15 @@ app.use(passport.session());
 
 //config local strategy > username and passport
 passport.use(User.createStrategy()); 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 
 // Configuring github strategy
@@ -68,6 +76,32 @@ async (accessToken, refreshToken, profile, done) => {
   }
 }
 ));
+
+//configuring google strategy
+passport.use(new GoogleStrategy({
+  clientID: config.google.clientId,
+  clientSecret: config.google.secret,
+  callbackURL: config.google.callback
+  },
+  async(accessToken, refreshToken, profile, done) =>{
+    const user = await User.findOne({ oauthId: profile.id });
+    if (user) {
+      return done(null, user);
+    }
+    else {
+      const newUser = new User({
+        //grabbing the values from google profile
+        username: profile.displayName,
+        oauthId: profile.id,
+        oauthProvider: 'Google',
+        created: Date.now()
+      });
+      const savedUser = await newUser.save();
+      return done(null, savedUser);
+    }
+  }
+  ));
+
 
 app.use('/', indexRouter);
 app.use('/teachers', teachersRouter); //using teachersRouter object on '/teachers' endpoint 
