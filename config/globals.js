@@ -3,12 +3,12 @@ const configurations ={
     'github':{
         'clientId': '1c649021733165c2950b',
         'clientSecret': 'f318a73d16a2f9a2c6ecf714451a68124060a9ca',
-        'callbackURL': 'http://localhost:3000/github/callback'
+        'callbackURL': 'https://rate-teacher.herokuapp.com/github/callback'
     },
     'google':{
         'clientId': '446714899582-0mgp2cll2b1q269qglbr3od2jn2sq974.apps.googleusercontent.com',
          'secret': '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',
-         'callback': 'http://localhost:3000/google/callback'
+         'callback': 'https://rate-teacher.herokuapp.com/google/callback'
     }
 }
 
