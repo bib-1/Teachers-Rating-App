@@ -15,7 +15,7 @@
     "google_authenticator": "^2.0.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
-    "mongoose": "^6.5.2",
+    "mongoose": "^6.11.3",
     "morgan": "~1.9.1",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
